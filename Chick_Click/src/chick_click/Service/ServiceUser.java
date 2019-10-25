@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,18 +56,19 @@ public class ServiceUser {
     return list;
     } 
     public boolean verifyLogin(String email ,String password) throws SQLException{
-       String requete="select count(*) from user where email = ? and password = ?;";
+       String requete="select email,password from user ;";
         PreparedStatement preparedStmt = con.prepareStatement(requete);
-        preparedStmt.setString(1, email);
-        preparedStmt.setString(2, password);
-
+        System.out.println("aaaaaaaaaaaaaaa");
       // execute the preparedstatement
         ResultSet rs = preparedStmt.executeQuery();
-        if(rs.next()){
+         System.out.println("aaaaaaaaaaaaaaa111");
+        while(rs.next()){
+            if((rs.getString(1).equals(email))&& (rs.getString(2).equals(password))){
             return true;
+           // break ;
+            }
         }
-        else
-       
+       System.out.println("aaaaaaaaaaaaaaa3333333"); 
     return false;
     }
     
@@ -101,5 +104,30 @@ public class ServiceUser {
       // execute the java preparedstatement
       preparedStmt.executeUpdate();
     }
+    public List<String> loadProfile(int id){
+    List<String> profile =null;
+    String query = "select `email`, `pseudo`, `gender`, `date_creation`, `role`, `photo_profile`, `photo_cover`, `status`, `phone` from user u join account a on a.user_id = u.user_id= where u.user_id = ?;";
+      PreparedStatement preparedStmt;
+         try {
+             preparedStmt = con.prepareStatement(query);
+             preparedStmt.setInt(1, id);
+             ResultSet rs = preparedStmt.executeQuery();
+             while(rs.next()){
+                  profile.add(rs.getString(1));
+                   profile.add(rs.getString(2));
+                    profile.add(rs.getString(3));
+                     profile.add(rs.getDate(4).toString());
+                      profile.add(rs.getString(5));
+                       profile.add(rs.getString(6));
+                        profile.add(rs.getString(7));
+                         profile.add(""+rs.getInt(9));   
+             
+             }
+             
+         } catch (SQLException ex) {
+             Logger.getLogger(ServiceUser.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    return profile;
+    } 
     
 }

@@ -2,3 +2,7 @@
     -fx-background-image: url('fbg.jpg');
     -fx-background-size: cover ;
 }
+.eventupslide {
+    -fx-background-image: url('im.jpg');
+    -fx-background-size: calc ;
+}

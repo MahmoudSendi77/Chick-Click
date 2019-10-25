@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * @author mahmoud
  */
 public class SignInController implements Initializable {
-
+  
     @FXML
     private TextField sintfemail;
     @FXML
@@ -59,6 +59,7 @@ public class SignInController implements Initializable {
         ServiceUser su =new ServiceUser();
         
         Boolean verified = su.verifyLogin(sintfemail.getText(), sintfpassword.getText());
+        System.out.println(verified);
         if(verified){
              FXMLLoader loader = new FXMLLoader(getClass().getResource("HomePage.fxml"));
             System.out.println("mechi lel sign up");
@@ -66,8 +67,8 @@ public class SignInController implements Initializable {
            
             Parent root;
             try {
-                root = loader.load();
-                 System.out.println("mechi lel Hmoe");
+             root = loader.load();
+            System.out.println("mechi lel Hmoe");
             HomePageController ac = loader.getController();
             System.out.println("mechi lel sign up3");
             sintfemail.getScene().setRoot(root);
@@ -78,7 +79,7 @@ public class SignInController implements Initializable {
            
             
         }
-      //  else 
+        else System.out.println("arja3 8odwa"); 
             
     }
     
