@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -36,21 +38,41 @@ public class ServiceEvent {
     public void addEvent(Events e) throws SQLException{
         
         
-      String requete = "INSERT INTO `events` (`event_id`,`user_id`,`event_date`, `address`, `event_description`,`event_title`,`event_picture`) "
-              + "VALUES (NULL,5,'12/12/2012', '"+e.getAddress()+"', '"+e.getEvent_description()+"','exemple','image');";
+      String requete = "INSERT INTO `events` (`event_id`,`user_id`,`event_start_date`, `address`, `event_description`,`event_title`,`event_picture`,`event_end_date`,`country`,`categories`,`event_houre`) "
+              + "VALUES (NULL, '"+e.getUser_id()+"','"+e.getEvent_date()+"','"+e.getAddress()+"','"+e.getEvent_description()+"','"+e.getEvent_title()+"','"+e.getEvent_picture()+"','"+e.getEvent_end_date()+"','"+e.getCountry()+"','"+e.getCategories()+"', '"+e.getEvent_houre()+"');";
    ste.executeUpdate(requete);
         System.out.println("elment inste");
     }
-    public List<Events> readAll() throws SQLException
+    public List<Events> getAll() throws SQLException
     {List<Events> list=new ArrayList<>();
     ResultSet res=ste.executeQuery("select * from events");
     Events event=null;
     while (res.next()) {  
-      event =new Events(res.getInt(1), res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6),res.getString(7));
+      event =new Events(res.getInt(1), res.getInt(2),res.getDate(3),res.getString(4),res.getString(5),res.getString(6),res.getString(7),res.getDate(8),res.getString(9),res.getString(10),res.getString(11));
       list.add(event);
         }
     return list;
     } 
+    
+    public Events getEventByID(int id){
+        Events e =null;
+                  String query = "select * from events where event_id = ?;";
+     
+        try {
+             PreparedStatement preparedStmt = con.prepareStatement(query);
+             preparedStmt.setInt(1, id);
+            ResultSet res=preparedStmt.executeQuery();
+            
+            while (res.next()) {
+                e =new Events(res.getInt(1), res.getInt(2),res.getDate(3),res.getString(4),res.getString(5),res.getString(6),res.getString(7),res.getDate(8),res.getString(9),res.getString(10),res.getString(11));
+                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceEvent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return e;
+    }
     
     public void deleteEvent(int id) throws SQLException{
     
@@ -75,26 +97,29 @@ public class ServiceEvent {
 //    }
     
     public void updateEvent(Events ev) throws SQLException{
-       // event_id`,`user_id`,`event_date`, `address`, `event_description`,`event_title`,`event_picture
-        String query = "update events set event_date = ? where event_id = ?;";
+ //UPDATE `events` SET `Event_start_date`=[value-3],`Address`=[value-4],`Event_description`=[value-5],`Event_title`=[value-6],`Event_picture`=[value-7],`Event_end_date`=[value-8],`country`=[value-9],`categories`=[value-10],`event_houre`=[value-11] WHERE 1
+        
+        String query = "UPDATE `events` SET `Event_start_date`= ?,`Address`=?,`Event_description`=?,"
+                + "`Event_title`=?,`Event_picture`=?,`Event_end_date`=?,`country`=?,"
+                + "`categories`=?,`event_houre`=? WHERE `event_id` = ?" +
+"    ;";
       PreparedStatement preparedStmt = con.prepareStatement(query);
-      preparedStmt.setInt   (2, ev.getEvent_id());
-      preparedStmt.setString(1, ev.getEvent_date());
+      preparedStmt.setInt   (9, ev.getEvent_id());
+      preparedStmt.setDate(1, ev.getEvent_date());
+      preparedStmt.setString(2, ev.getEvent_description());
+      preparedStmt.setString(3, ev.getEvent_title());
+      preparedStmt.setString(4, ev.getEvent_picture());
+      preparedStmt.setDate(5, ev.getEvent_end_date());
+      preparedStmt.setString(6, ev.getCountry());
+      
+      preparedStmt.setString(7, ev.getCategories());
+      preparedStmt.setString(8, ev.getEvent_houre());
+    
 
       // execute the java preparedstatement
       preparedStmt.executeUpdate();
     }
     
-//  public void ajouterPersonne2(Personne p) throws SQLException{  
-//  String req="INSERT INTO `events` ( `nom`, `age`) VALUES (?,?)";
-//  PreparedStatement pres=con.prepareStatement(req);
-//  pres.setString(1, p.getNom());
-//  pres.setInt(2, p.getAge());
-//  
-//  
-//  pres.executeUpdate();
-//      System.out.println("element inserer");
-//  
-//  }
+
     
 }

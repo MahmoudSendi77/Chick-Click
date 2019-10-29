@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="746.0" prefWidth="1187.0" style="-fx-background-color: #aeaeae;" stylesheets="@../Utils/styleLogin.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.HomePageController">
+   <children>
+      <HBox alignment="CENTER" layoutY="-1.0" prefHeight="106.0" prefWidth="913.0" style="-fx-background-color: #2f2f2fa3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="106.0" prefWidth="264.0">
+               <children>
+                  <TextField fx:id="searchp" prefHeight="35.0" prefWidth="179.0" promptText="search...." style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 100;" />
+                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="62.0" style="-fx-background-color: #2f2f2fa3; -fx-background-radius: 100;" text="search" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" prefHeight="106.0" prefWidth="50.0" />
+         </children>
+      </HBox>
+      <Pane prefHeight="106.0" prefWidth="295.0" style="-fx-background-radius: 100; -fx-background-color: #2f2f2fa3;" styleClass="linear-grad">
+         <children>
+            <ImageView fx:id="userimg" fitHeight="106.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="usernamelabel" layoutX="107.0" layoutY="33.0" prefHeight="27.0" prefWidth="189.0" text="ADAM LEVIN" textFill="#f5f5f5">
+               <font>
+                  <Font name="Verdana Pro Cond Semibold Italic" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <VBox layoutY="103.0" prefHeight="567.0" prefWidth="166.0" style="-fx-background-color: #f2f2f2a3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="105.0">
+         <children>
+            <VBox prefHeight="292.0" prefWidth="166.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#toEventPage" prefHeight="48.0" prefWidth="166.0" style="-fx-background-color: #2f2f2fa3; -fx-text-fill: white; -fx-font-weight: bold;" text="EVENTS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#toProfilePage" prefHeight="48.0" prefWidth="166.0" style="-fx-background-color: #2f2f2fa3; -fx-text-fill: white; -fx-font-weight: bold;" text="PROFILE" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#toSettingPage" prefHeight="48.0" prefWidth="166.0" style="-fx-background-color: #2f2f2fa3; -fx-text-fill: white; -fx-font-weight: bold;" text="SETTING" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox layoutX="182.0" layoutY="135.0" prefHeight="611.0" prefWidth="935.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="135.0">
+         <children>
+            <ScrollPane fx:id="pubpane" prefHeight="612.0" prefWidth="935.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <GridPane fx:id="homepagegrid" prefHeight="513.0" prefWidth="925.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children></VBox>
+      <VBox layoutX="869.0" layoutY="206.0" prefHeight="505.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="206.0" />
+   </children>
+</AnchorPane>
