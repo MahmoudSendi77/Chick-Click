@@ -6,9 +6,12 @@
 package chick_click.Service;
 
 import chick_click.Entite.Events;
+import chick_click.Entite.ProfileUser;
 import chick_click.Entite.User;
+import chick_click.Utils.CurrentUser;
 import chick_click.Utils.DataSource;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +26,7 @@ import java.util.logging.Logger;
  * @author mahmoud
  */
 public class ServiceUser {
-     private Connection con = DataSource.getInstance().getConnection();
+    private Connection con = DataSource.getInstance().getConnection();
     private Statement ste;
 
     public ServiceUser() {
@@ -35,14 +38,22 @@ public class ServiceUser {
     }
 
    
-    public void addUser(User u) throws SQLException{
+    public int addUser(User u) throws SQLException{
         
       String requete ="INSERT INTO `user`(`user_id`, `email`, `password`, `pseudo`, `gender`, `date_creation`, `role`, `country`, `interrest`)"
               + " VALUES (NULL, '"+u.getEmail()+"', '"+u.getPassword()+"', '"+u.getPseudo()+"', '"+u.getGender()+"', '"+u.getDate_creation()+"', '"+u.getRole()+"', '"+u.getCountry()+"', '"+u.getInterrest()+"');";
 
-         int rs = ste.executeUpdate(requete);
-         System.out.println(rs);
+          ste.executeUpdate(requete);
+
         System.out.println("elment inste");
+         ResultSet keyResultSet = ste.getGeneratedKeys();
+        int newId = 0;
+        if (keyResultSet.next()) {
+            newId = (int) keyResultSet.getInt(1);
+        }
+        System.out.println(newId);
+        return newId;
+        
     }
     
     public List<User> readAll() throws SQLException
@@ -55,6 +66,7 @@ public class ServiceUser {
         }
     return list;
     } 
+    
     public int verifyLogin(String email ,String password) throws SQLException{
        String requete="select user_id,email,password from user ;";
         PreparedStatement preparedStmt = con.prepareStatement(requete);
@@ -70,6 +82,40 @@ public class ServiceUser {
         }
       
     return -1;
+    }
+    public boolean verifyPseudo(String pseudo) throws SQLException{
+       String requete="select pseudo from user ;";
+        PreparedStatement preparedStmt = con.prepareStatement(requete);
+      // execute the preparedstatement
+        ResultSet rs = preparedStmt.executeQuery();
+        
+        while(rs.next()){
+            if((rs.getString(1).equals(pseudo))){
+                
+            return false;
+           // break ;
+            }
+            
+        }
+      
+    return true;
+    }
+    public boolean verifyEmail(String mail) throws SQLException{
+       String requete="select email from user ;";
+        PreparedStatement preparedStmt = con.prepareStatement(requete);
+      // execute the preparedstatement
+        ResultSet rs = preparedStmt.executeQuery();
+        
+        while(rs.next()){
+            if((rs.getString(1).equals(mail))){
+                
+            return false;
+           // break ;
+            }
+            
+        }
+      
+    return true;
     }
     
     
@@ -117,30 +163,62 @@ public class ServiceUser {
 //      // execute the java preparedstatement
 //      preparedStmt.executeUpdate();
 //    }
-    public List<String> loadProfile(int id){
-    List<String> profile =null;
-    String query = "select `email`, `pseudo`, `gender`, `date_creation`, `role`, `photo_profile`, `photo_cover`, `status`, `phone` from user u join account a on a.user_id = u.user_id= where u.user_id = ?;";
-      PreparedStatement preparedStmt;
+    
+    public void loadProfile(int id){
+        CurrentUser profile =CurrentUser.getInstance();
+    String query = "select `email`, `pseudo`, `gender`, `role`, `photo_profile`, `phone` from user u inner join account a on a.user_id = u.user_id= where u.user_id =?;";
+      PreparedStatement preparedStmt=null;
+      
          try {
              preparedStmt = con.prepareStatement(query);
              preparedStmt.setInt(1, id);
              ResultSet rs = preparedStmt.executeQuery();
              while(rs.next()){
-                  profile.add(rs.getString(1));
-                   profile.add(rs.getString(2));
-                    profile.add(rs.getString(3));
-                     profile.add(rs.getDate(4).toString());
-                      profile.add(rs.getString(5));
-                       profile.add(rs.getString(6));
-                        profile.add(rs.getString(7));
-                         profile.add(""+rs.getInt(9));   
+                 profile.setIdcurrentuser(id);
+                  profile.setEmail(rs.getString(1));
+                   profile.setPseudo(rs.getString(2));
+                    profile.setGender(rs.getString(3));                     
+                      profile.setRole(rs.getString(4));
+                       profile.setPhoto_profile(rs.getString(5));
+                        profile.setPhone(rs.getString(6));
+                        
+ 
              
              }
              
          } catch (SQLException ex) {
              Logger.getLogger(ServiceUser.class.getName()).log(Level.SEVERE, null, ex);
+             
          }
-    return profile;
+    
     } 
+    
+    
+      public void updateUser(User ev) throws SQLException{
+          
+        
+        String query = "UPDATE `user` SET `user_id`=?,`email`=?,`password`=?,`pseudo`=?,"
+                + "`gender`=?,`date_creation`=?,`role`=?,"
+                + "`country`=?,`interrest`=? WHERE `user_id` = ?" +
+"    ;";
+      PreparedStatement preparedStmt = con.prepareStatement(query);
+      preparedStmt.setInt(10, ev.getUser_id());
+      preparedStmt.setInt(1, ev.getUser_id());
+
+      preparedStmt.setString(2, ev.getEmail());
+      preparedStmt.setString(3, ev.getPassword());
+      preparedStmt.setString(4, ev.getPseudo());
+      preparedStmt.setString(5, ev.getGender());
+      preparedStmt.setDate(6, (Date) ev.getDate_creation());
+     
+      preparedStmt.setString(7, ev.getRole());
+      
+      preparedStmt.setString(8, ev.getCountry());
+      preparedStmt.setString(9, ev.getInterrest());
+    
+
+      // execute the java preparedstatement
+      preparedStmt.executeUpdate();
+    }
     
 }

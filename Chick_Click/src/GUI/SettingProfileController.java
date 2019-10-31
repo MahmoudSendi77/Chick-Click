@@ -5,8 +5,12 @@
  */
 package GUI;
 
+import chick_click.Entite.Account;
 import chick_click.Entite.User;
+import chick_click.Service.ControleSaisie;
+import chick_click.Service.ServiceAccount;
 import chick_click.Service.ServiceUser;
+import chick_click.Utils.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -19,24 +23,44 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import GUI.SignInController;
-import chick_click.Entite.Account;
-import chick_click.Service.ControleSaisie;
-import chick_click.Service.ServiceAccount;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
  *
  * @author mahmoud
  */
-public class SignUpController implements Initializable {
+public class SettingProfileController implements Initializable {
 
     @FXML
-    private AnchorPane signup;
+    private ImageView userimg;
+    @FXML
+    private Label username;
+    @FXML
+    private VBox adduserhvbox;
+    @FXML
+    private TextField suppseudo1;
+    @FXML
+    private TextField supemail1;
+    @FXML
+    private TextField suppasword1;
+    @FXML
+    private TextField suppasswordcheck1;
+    @FXML
+    private TextField supphone1;
+    @FXML
+    private TextField supcountry1;
+    @FXML
+    private TextField suppseudo11;
+    @FXML
+    private TextField suppseudo21;
+    @FXML
+    private VBox modifyvbox;
     @FXML
     private TextField suppseudo;
     @FXML
@@ -54,24 +78,13 @@ public class SignUpController implements Initializable {
     @FXML
     private ComboBox<String> interrest;
     @FXML
-    private Label mailm;
-    @FXML
-    private Label pseudom;
-    @FXML
-    private Label passwdm;
-    @FXML
-    private Label cpasswdm;
-    @FXML
-    private Label phonem;
-    private Label empty;
-    @FXML
-    private Label countrym;
-    @FXML
-    private Label genderm;
-    @FXML
-    private Label interstm;
-    ServiceUser sp;
+    private Button shadd;
 
+    ServiceUser sp;
+    @FXML
+    private Label message;
+    @FXML
+    private TextField photoprf;
     /**
      * Initializes the controller class.
      */
@@ -85,9 +98,11 @@ public class SignUpController implements Initializable {
        interrest.setValue("SPORT");
        
         sp = new ServiceUser();
-       
     }    
 
+    @FXML
+    private void showAdd(ActionEvent event) {
+    }
     private boolean verification(){
         
         
@@ -102,23 +117,23 @@ public class SignUpController implements Initializable {
                    
                )){
             
-            empty.setText("PLEASE MAKE SURE TO FILL ALL FIELDS");
+           // empty.setText("PLEASE MAKE SURE TO FILL ALL FIELDS");
         return false;
         }
         try {
             if(sp.verifyPseudo(suppseudo.getText())){
-             pseudom.setText("PSEUDO ALREADY USED ");
+             message.setText("PSEUDO ALREADY USED ");
             }
         } catch (SQLException ex) {
             Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(!ControleSaisie.isEmail(supemail.getText())){
-            mailm.setText("PLEASE ENTER A VALID EMAIL");
+            message.setText("PLEASE ENTER A VALID EMAIL");
             return false;
         }else{
             try {
                 if(sp.verifyEmail(supemail.getText())){
-                     mailm.setText("EMAIL ALREADY USED ");
+                     message.setText("EMAIL ALREADY USED ");
             return false;
                     
                 }
@@ -127,46 +142,45 @@ public class SignUpController implements Initializable {
             }
         }
         if(!ControleSaisie.isPasswor(suppasword.getText())){
-            passwdm.setText("PLEASE ENTER A ALPHANUMERIC PASSWORD > 6 ");
+            message.setText("PLEASE ENTER A ALPHANUMERIC PASSWORD > 6 ");
             return false;
         }else if(suppasword.getText().equals(suppasswordcheck.getText())){
-            cpasswdm.setText("PASSWORD DO NOT MUCH");
+            message.setText("PASSWORD DO NOT MUCH");
             return false;
         }
         if(!ControleSaisie.isPhone(supphone.getText())){
-            phonem.setText("PLEASE ENTER A VALID PHONE NUMBER");
+            message.setText("PLEASE ENTER A VALID PHONE NUMBER");
             return false;
         }
         if(gender.getValue()==null){
-            genderm.setText("PLEASE SELECT YOUR GENDER");
+            message.setText("PLEASE SELECT YOUR GENDER");
          return false;   
         }
         if(interrest.getValue()==null){
-            interstm.setText("PLEASE SELECT YOUR INTERREST");
+            message.setText("PLEASE SELECT YOUR INTERREST");
          return false;   
         }
         if(supcountry.getText().trim().length()<3){
-            countrym.setText("PLEASE ENTER YOUR COUNTRY AT LEAST 3 CARACTER");
+            message.setText("PLEASE ENTER YOUR COUNTRY AT LEAST 3 CARACTER");
          return false;   
         }
         
         return true;
     }
+
     @FXML
-    private void switchToSignInPage(ActionEvent event) throws IOException {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("../chick_click/GUI/SignIn.fxml"));
-            Parent root =loader.load();
-            SignInController ac = loader.getController();
-            supemail.getScene().setRoot(root);
+    private void addAdmin(ActionEvent event) {
     }
 
     @FXML
-    private void signUp(ActionEvent event) {        
-        
-        if(verification()){
-            ServiceAccount sa =new ServiceAccount();
+    private void modifC(ActionEvent event) {
+            if(verification()){
+                
             
-         User u = new User();       
+                CurrentUser cc =CurrentUser.getInstance();
+                int idu =cc.getIdcurrentuser();
+         User u = new User();   
+         u.setUser_id(idu);
          u.setEmail(supemail.getText());
          u.setPassword(suppasword.getText());
          
@@ -184,16 +198,17 @@ public class SignUpController implements Initializable {
         
 
         try {
-            int id = sp.addUser(u);
-            if(id!=0){
+            sp.updateUser(u);
+            
                 Account acc =new Account();
-                
+                ServiceAccount sa =new ServiceAccount();
                 acc.setPhone(supphone.getText());
-                acc.setUser_id(id);
+                acc.setUser_id(idu);
                 acc.setStatus("active");
-              //  acc.setPhoto_profile(photo_profile);
-               sa.addAccount(acc);
-            }
+                acc.setPhoto_profile(photoprf.getText());
+                
+                sa.updateUser(acc);
+                
             // if user add add account with status active not verified
              FXMLLoader loader = new FXMLLoader(getClass().getResource("../chick_click/GUI/HomePage.fxml"));
             Parent root =loader.load();
@@ -208,5 +223,4 @@ public class SignUpController implements Initializable {
             } 
     }
     }
-    
 }

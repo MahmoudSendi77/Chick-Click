@@ -61,12 +61,7 @@ public class HomePageController implements Initializable {
            
          try {
              int i;
-             int m;
-             
-//                 HBox hb = new HBox();
-//                 
-//                 GridPane gp = new GridPane();
-//                hb.getChildren().add(gp);    
+            
                  for(i=4;i<100;i=i+3){
                      int l;
                      l=i;
@@ -76,6 +71,7 @@ public class HomePageController implements Initializable {
             homepagegrid.add(tf ,1,l);
             int j=0;
             j++;
+            
             tf.setText("publication "+j+" \n azertyuazertyuazaz \n azertyuiolnbvfdf");
             tf.setStyle("-fx-background-color: transparent;");
             tf.setPrefWidth(100);
@@ -146,7 +142,7 @@ public class HomePageController implements Initializable {
 
     @FXML
     private void toSettingPage(ActionEvent event) throws IOException {
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("../chick_click/GUI/SettingProfile.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../chick_click/GUI/SettingProfile.fxml"));
             Parent root =loader.load();
             FashionEventController ac = loader.getController();
             searchp.getScene().setRoot(root);

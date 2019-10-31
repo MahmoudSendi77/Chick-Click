@@ -34,10 +34,18 @@ public class ControleSaisie {
          return false ;//n'est pas vide
 
      }
- private static final String heure= "^((0[0-9]|1[0-9]|2[0-3]):){1}(([0-5][0-9]){1})$";
+     
+    
+ private static final String heure= "^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$";
+ private static Pattern pattern10 = Pattern.compile(heure);
+ 
      public static boolean isValidHour(String txt){
-        matcher = pattern.matcher(txt);
-
+          System.out.println(txt);
+        matcher = pattern10.matcher(txt.trim());
+         System.out.println(matcher.toString());
+         System.out.println(matcher.matches());
+        System.out.println(txt);
+         
         return matcher.matches();
         
      }

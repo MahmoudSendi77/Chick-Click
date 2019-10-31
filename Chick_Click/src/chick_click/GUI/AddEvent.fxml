@@ -30,8 +30,8 @@
             </HBox>
             <Pane prefHeight="106.0" prefWidth="295.0" style="-fx-background-radius: 100; -fx-background-color: #2f2f2fa3;" styleClass="linear-grad">
                <children>
-                  <ImageView fitHeight="106.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label layoutX="107.0" layoutY="33.0" prefHeight="27.0" prefWidth="189.0" text="ADAM LEVIN" textFill="WHITE">
+                  <ImageView fx:id="profileimg" fitHeight="106.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="username" layoutX="107.0" layoutY="33.0" prefHeight="27.0" prefWidth="189.0" textFill="WHITE">
                      <font>
                         <Font name="Verdana Pro Cond Semibold Italic" size="18.0" />
                      </font>

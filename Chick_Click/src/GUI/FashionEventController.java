@@ -10,6 +10,7 @@ import chick_click.Entite.Events;
 import chick_click.Service.ServiceEvent;
 import chick_click.Service.ServiceUser;
 import chick_click.Utils.CurrentUser;
+import chick_click.Utils.SearchHundler;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,9 +28,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -64,20 +62,36 @@ public class FashionEventController implements Initializable {
     private Button addEventbt;
     @FXML
     private Label username;
+    @FXML
+    private TextField searchtext;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       // listEventShow.addRow(1,);
-       giveAccessToAddEvent();
+        
+       
+      // giveAccessToAddEvent();
     
           profileimg.setImage(new Image("file:..\\..\\..\\..\\..\\..\\..\\..\\wamp64\\www\\Images\\profile-adam-levine.png"));
+         createProfile();
          loadEvents();
        
         // TODO
     }    
+    
+    public void createProfile(){
+        CurrentUser cu = CurrentUser.getInstance();
+        username.setText(cu.getPseudo());
+      
+        try {
+            profileimg.setImage(new Image(cu.getPhoto_profile()));
+            
+        } catch (Exception e) {
+            System.out.println("mochkla fi soura fi path :(");
+        }
+    }
     
     private void giveAccessToAddEvent() {
         
@@ -157,9 +171,9 @@ public class FashionEventController implements Initializable {
                
                 MyHundlerEvent mhe= MyHundlerEvent.getInstance();
                 mhe.setId(e.get(j).getEvent_id());
-                mhe.setLabel(drsc);
-                
-                link.setOnAction(mhe); //
+                mhe.setLabel(username);
+                mhe.setDestination("EventDetails");
+                link.setOnAction(mhe); 
                 
             VBox vb = new VBox();      
                  vb.setMinSize(200,139); 
@@ -238,21 +252,33 @@ public class FashionEventController implements Initializable {
     }
 
     @FXML
-    private void toHomePage(ActionEvent event) {
+    private void toHomePage(ActionEvent event) throws IOException, SQLException {
+        ServiceEvent sev=new ServiceEvent();
+        List<Events> l = sev.foundBYName("Paris");
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("../chick_click/GUI/EventDetails.fxml"));
+//            Parent root =loader.load();
+//            SignInController ac = loader.getController();
+//            username.getScene().setRoot(root);
     }
 
     @FXML
     private void goToEventFullDetais(MouseEvent event) {
-
-        
-        System.out.println("2133333333333333333333333333333333333333333333333333333333");
-        Node source = (Node)event.getSource() ;
-        System.out.println(source);
-        System.out.println(listEventShow.toString());
-        Integer colIndex = listEventShow.getColumnIndex(source);
-        Integer rowIndex = listEventShow.getRowIndex(source);
-        System.out.println(listEventShow.getRowIndex(source));
-        
         }
+
+    @FXML
+    private void searchEvent(ActionEvent event) throws IOException {
+        SearchHundler cc =SearchHundler.getInstance();
+        cc.setSearch(searchtext.getText());
+        System.out.println("seaaaaaaaarch"+searchtext.getText());
+          System.out.println(cc.getSearch()+ "   hhhhhhhhhhhhhhhhhhhhhhhhh");
+           System.out.println(cc.getSearch());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../chick_click/GUI/SearchEventPage.fxml"));//../GUI/SearchEventPage.fxml
+            System.out.println("seaaaaaaaarch"+searchtext.getText());
+            Parent root =loader.load();
+            System.out.println("seaaaaaaaarch"+searchtext.getText());
+            System.out.println(cc.getSearch()+ "   hhhhhhhhhhhhhhhhhhhhhhhhh");
+            SearchEventPageController ac = loader.getController();
+            username.getScene().setRoot(root);
+    }
     
 }

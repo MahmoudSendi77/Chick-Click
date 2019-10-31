@@ -23,7 +23,25 @@ import javafx.scene.control.Label;
 public class MyHundlerEvent implements EventHandler<ActionEvent>{
     private  Label label;
     private  int id=0;
+    private String searchPatern="";
+    private String destination="";
     static MyHundlerEvent mh;
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getSearchPatern() {
+        return searchPatern;
+    }
+
+    public void setSearchPatern(String searchPatern) {
+        this.searchPatern = searchPatern;
+    }
     
     private MyHundlerEvent() {
         
@@ -45,21 +63,18 @@ public class MyHundlerEvent implements EventHandler<ActionEvent>{
         this.id = id;
     }
     
-    
-
+    private String toPage(){
+        String page ="../GUI/";
+        return page =page+destination+".fxml";
+    }
+   
     @Override
     public void handle(ActionEvent e) {
-      
         try {
-            System.out.println("899999999999777777777777777777777777777777777");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/EventDetails.fxml"));
-           
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(toPage()));
             Parent root =loader.load();
-          
             EventDetailsController ed = loader.getController();
-           // ed.setEventID(this.id);
             label.getScene().setRoot(root); 
-            System.out.println("999999999999999999999999999999999999999999999");
             System.out.println(id);
       
         } catch (IOException ex) {

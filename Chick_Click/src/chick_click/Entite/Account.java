@@ -14,12 +14,12 @@ public class Account {
     private String photo_profile ;
     private String Status;
     private int user_id;
-    private int phone;
+    private String phone;
 
     public Account() {
     }
 
-    public Account(String photo_profile, String Status, int user_id, int phone) {
+    public Account(String photo_profile, String Status, int user_id, String phone) {
         this.photo_profile = photo_profile;
         this.Status = Status;
         this.user_id = user_id;
@@ -50,11 +50,11 @@ public class Account {
         this.user_id = user_id;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

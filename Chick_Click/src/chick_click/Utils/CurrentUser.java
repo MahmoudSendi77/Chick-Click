@@ -12,7 +12,13 @@ package chick_click.Utils;
 public class CurrentUser {
      private static CurrentUser currentuser ;
      private int idcurrentuser;
-      private CurrentUser() {
+     private String email;
+     private String pseudo;
+     private String gender;
+     private String role;
+     private String photo_profile;
+     private String phone;
+      public CurrentUser() {
     }
 
     public int getIdcurrentuser() {
@@ -28,6 +34,53 @@ public class CurrentUser {
             currentuser = new CurrentUser();
         }
         return currentuser;
+    }
+       public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPhoto_profile() {
+        return photo_profile;
+    }
+
+    public void setPhoto_profile(String photo_profile) {
+        this.photo_profile = photo_profile;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
        
 }

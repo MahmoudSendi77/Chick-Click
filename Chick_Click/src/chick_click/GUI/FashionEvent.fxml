@@ -23,8 +23,8 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="106.0" prefWidth="264.0">
                      <children>
-                        <TextField prefHeight="35.0" prefWidth="179.0" promptText="search...." style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 100;" />
-                        <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="81.0" style="-fx-background-color: #2f2f2fa3; -fx-background-radius: 100;" text="search" textFill="#f6fcd1" />
+                        <TextField fx:id="searchtext" prefHeight="35.0" prefWidth="179.0" promptText="search...." style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 100;" />
+                        <Button mnemonicParsing="false" onAction="#searchEvent" prefHeight="32.0" prefWidth="81.0" style="-fx-background-color: #2f2f2fa3; -fx-background-radius: 100;" text="search" textFill="#f6fcd1" />
                      </children>
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="106.0" prefWidth="50.0" />
@@ -33,7 +33,7 @@
             <Pane prefHeight="106.0" prefWidth="295.0" style="-fx-background-radius: 100; -fx-background-color: #2f2f2fa3;" styleClass="linear-grad">
                <children>
                   <ImageView fx:id="profileimg" fitHeight="106.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="username" layoutX="107.0" layoutY="33.0" prefHeight="27.0" prefWidth="189.0" text="ADAM LEVIN" textFill="WHITE">
+                  <Label fx:id="username" layoutX="107.0" layoutY="33.0" prefHeight="27.0" prefWidth="189.0" textFill="WHITE">
                      <font>
                         <Font name="Verdana Pro Cond Semibold Italic" size="18.0" />
                      </font>
@@ -60,7 +60,7 @@
             </VBox>
             <HBox alignment="CENTER_RIGHT" layoutX="166.0" layoutY="106.0" prefHeight="100.0" prefWidth="869.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="106.0">
                <children>
-                  <Label fx:id="addenvetLabel" prefHeight="28.0" prefWidth="56.0" text="Add Event" />
+                  <Label fx:id="addenvetLabel" prefHeight="28.0" prefWidth="72.0" style="-fx-font-weight: bold;" text="Add Event" />
                   <Button fx:id="addEventbt" contentDisplay="CENTER" mnemonicParsing="false" onAction="#toAddEventPage" prefHeight="65.0" prefWidth="70.0" style="-fx-background-radius: 200; -fx-background-color: #2f2f2fa3;" text="+" textFill="WHITE">
                      <font>
                         <Font size="33.0" />
@@ -74,8 +74,6 @@
                   <Insets right="43.0" />
                </padding>
             </HBox>
-            <VBox layoutX="166.0" layoutY="206.0" prefHeight="550.0" prefWidth="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="206.0" />
-            <VBox layoutX="869.0" layoutY="206.0" prefHeight="526.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="206.0" />
             <VBox layoutX="246.0" layoutY="206.0" prefHeight="526.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="158.0" AnchorPane.topAnchor="206.0">
                <children>
                   <ScrollPane style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">

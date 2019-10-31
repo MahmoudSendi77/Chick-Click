@@ -82,6 +82,7 @@ public class SignInController implements Initializable {
             System.out.println("mechi lel Hmoe");
             HomePageController ac = loader.getController();
             ac.setCurrentUserID(id);
+            su.loadProfile(id);
             
             sintfemail.getScene().setRoot(root);
             System.out.println("mechi lel sign up4");
